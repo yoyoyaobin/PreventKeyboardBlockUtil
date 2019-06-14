@@ -41,4 +41,9 @@ public class ConstraintLayoutActivity extends Activity {
         PreventKeyboardBlockUtil.getInstance(this).setBtnView(btnSubmit).register();
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        PreventKeyboardBlockUtil.getInstance(this).unRegister();
+    }
 }

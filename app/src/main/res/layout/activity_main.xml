@@ -7,6 +7,15 @@
     tools:context=".ConstraintLayoutActivity"
     >
 
+    <ImageView
+        android:layout_width="250dp"
+        android:layout_height="250dp"
+        android:background="@mipmap/ic_launcher"
+        app:layout_constraintBottom_toTopOf="@+id/cl_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        />
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/cl_content"

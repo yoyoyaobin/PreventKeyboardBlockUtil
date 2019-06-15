@@ -3,7 +3,7 @@
 ![image](https://github.com/yoyoyaobin/PreventKeyboardBlockUtil/blob/master/app/src/main/assets/1.gif)
 
 ## 目的
-目前官方提供的三个软键盘方案，一个会顶起输入框并将布局往上推（SOFT_INPUT_ADJUST_PAN），一个会顶起输入框并挤压布局（SOFT_INPUT_ADJUST_RESIZE），一个直接弹出键盘其他不做任何处理（SOFT_INPUT_ADJUST_NOTHING。本库为了解决当键盘弹出时挡住了其他控件（默认只会顶起当前获得焦点的输入框），傻瓜式一键配置，欢迎使用。
+当前官方提供的三个软键盘方案，一个会顶起输入框并将布局往上推（SOFT_INPUT_ADJUST_PAN），一个会顶起输入框并挤压布局（SOFT_INPUT_ADJUST_RESIZE），一个直接弹出键盘其他不做任何处理（SOFT_INPUT_ADJUST_NOTHING，而前两个方案最多只能将获得焦点的输入框顶起。本库为了解决当键盘弹出时挡住了其他控件（默认只会顶起当前获得焦点的输入框），傻瓜式一键配置，欢迎使用。
 
 ## 使用方式
 ### 1.在project的build.gradle里配置

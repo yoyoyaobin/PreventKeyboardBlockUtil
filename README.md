@@ -1,4 +1,7 @@
 # PreventKeyboardBlockUtil
+
+![image](https://github.com/yoyoyaobin/PreventKeyboardBlockUtil/blob/master/app/src/main/assets/1.gif)
+
 ## 使用方式
 ### 1.在project的build.gradle里配置
 ```

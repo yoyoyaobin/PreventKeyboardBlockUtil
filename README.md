@@ -37,3 +37,6 @@ allprojects {
     }
  ```
  其中，setBtnView传入的view是你想要在键盘弹出时置于键盘上的最后一个控件，比如触发登录的按钮。
+ 
+ ## LICENSE
+详见[LICENSE](https://github.com/yoyoyaobin/PreventKeyboardBlockUtil/blob/master/LICENSE)

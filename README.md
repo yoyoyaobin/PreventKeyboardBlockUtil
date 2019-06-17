@@ -25,16 +25,16 @@ allprojects {
  ### 3.在你的activity用上
  ```
  @Override
-    protected void onStart() {
-        super.onStart();
-        PreventKeyboardBlockUtil.getInstance(this).setBtnView(btnSubmit).register();
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        PreventKeyboardBlockUtil.getInstance(this).unRegister();
-    }
+     protected void onResume() {
+         super.onResume();
+         PreventKeyboardBlockUtil.getInstance(this).setBtnView(btnView).register();
+     }
+ 
+     @Override
+     protected void onPause() {
+         super.onPause();
+         PreventKeyboardBlockUtil.getInstance(this).unRegister();
+     }
  ```
  其中，setBtnView传入的view是你想要在键盘弹出时置于键盘上的最后一个控件，比如触发登录的按钮。
  

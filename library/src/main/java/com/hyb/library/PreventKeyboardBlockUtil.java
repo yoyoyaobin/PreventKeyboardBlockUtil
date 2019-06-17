@@ -3,6 +3,7 @@ package com.hyb.library;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.app.Activity;
+import android.content.res.Configuration;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
@@ -85,6 +86,9 @@ public class PreventKeyboardBlockUtil {
         keyboardHeightProvider.setKeyboardHeightObserver(new KeyboardHeightObserver() {
             @Override
             public void onKeyboardHeightChanged(int height, int orientation) {
+                if(orientation == Configuration.ORIENTATION_LANDSCAPE){
+                    return;
+                }
                 Log.i("tag" , "onKeyboardHeightChanged:"+ height);
                 if(keyBoardHeight == height){
                     return;
@@ -131,6 +135,7 @@ public class PreventKeyboardBlockUtil {
     public void unRegister(){
         keyboardHeightProvider.setKeyboardHeightObserver(null);
         keyboardHeightProvider.close();
+        preventKeyboardBlockUtil = null;
     }
 
     private int getViewLocationYInScreen(View view) {

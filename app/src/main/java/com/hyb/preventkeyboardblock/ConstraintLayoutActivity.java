@@ -38,12 +38,17 @@ public class ConstraintLayoutActivity extends Activity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         PreventKeyboardBlockUtil.getInstance(this).setBtnView(btnSubmit).register();
     }
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
+    protected void onPause() {
+        super.onPause();
         PreventKeyboardBlockUtil.getInstance(this).unRegister();
     }
 }

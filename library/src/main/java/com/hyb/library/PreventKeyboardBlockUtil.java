@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.WindowManager;
 
+import com.blankj.utilcode.util.KeyboardUtils;
 import com.blankj.utilcode.util.ScreenUtils;
 import com.blankj.utilcode.util.Utils;
 
@@ -29,8 +30,8 @@ import java.util.TimerTask;
 public class PreventKeyboardBlockUtil {
 
     static PreventKeyboardBlockUtil preventKeyboardBlockUtil;
-    static Activity activity;
-    static View btnView;
+    static Activity mActivity;
+    static View mBtnView;
     static ViewGroup rootView;
     static boolean isMove;
     static int marginBottom = 0;
@@ -38,26 +39,26 @@ public class PreventKeyboardBlockUtil {
     int keyBoardHeight = 0;
 
     public static PreventKeyboardBlockUtil getInstance(Activity activity) {
-
-        if (preventKeyboardBlockUtil == null) {
-            Utils.init(activity);
-            activity.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING);
-            preventKeyboardBlockUtil.activity = activity;
-            rootView = (ViewGroup) ((ViewGroup) activity.findViewById(android.R.id.content)).getChildAt(0);
-            if (rootView.getId() == -1) {
-                rootView.setId(View.generateViewId());
-            }
-            isMove = false;
-            marginBottom = 0;
+        if(preventKeyboardBlockUtil == null){
             preventKeyboardBlockUtil = new PreventKeyboardBlockUtil();
-            keyboardHeightProvider = new KeyboardHeightProvider(activity);
         }
+
+        initData(activity);
 
         return preventKeyboardBlockUtil;
     }
 
+    private static void initData(Activity activity) {
+        mActivity = activity;
+        mActivity.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING);
+        rootView = (ViewGroup) ((ViewGroup) mActivity.findViewById(android.R.id.content)).getChildAt(0);
+        isMove = false;
+        marginBottom = 0;
+        keyboardHeightProvider = new KeyboardHeightProvider(mActivity);
+    }
+
     public PreventKeyboardBlockUtil setBtnView(View btnView) {
-        preventKeyboardBlockUtil.btnView = btnView;
+        mBtnView = btnView;
         return preventKeyboardBlockUtil;
     }
 
@@ -99,23 +100,19 @@ public class PreventKeyboardBlockUtil {
                 if (keyBoardHeight == 0) {//键盘收起
                     if (isMove) {
 
-                        Message message = new Message();
-                        message.arg1 = 0;
-                        mHandler.sendMessage(message);
+                        sendHandlerMsg(0);
 
                         isMove = true;
                     }
                 } else {//键盘打开
 
                     int keyBorardTopY = ScreenUtils.getAppScreenHeight() - keyBoardHeight;
-                    if(keyBorardTopY > (getViewLocationYInScreen(btnView) + btnView.getHeight())){
+                    if(keyBorardTopY > (getViewLocationYInScreen(mBtnView) + mBtnView.getHeight())){
                         return;
                     }
-                    int margin = keyBorardTopY - (getViewLocationYInScreen(btnView) + btnView.getHeight());
+                    int margin = keyBorardTopY - (getViewLocationYInScreen(mBtnView) + mBtnView.getHeight());
                     Log.i("tag" , "margin:" + margin);
-                    Message message = new Message();
-                    message.arg1 = margin;
-                    mHandler.sendMessage(message);
+                    sendHandlerMsg(margin);
 
                     isMove = true;
                 }
@@ -123,7 +120,7 @@ public class PreventKeyboardBlockUtil {
             }
         });
 
-        btnView.post(new Runnable() {
+        mBtnView.post(new Runnable() {
             @Override
             public void run() {
                 keyboardHeightProvider.start();
@@ -133,9 +130,17 @@ public class PreventKeyboardBlockUtil {
     }
 
     public void unRegister(){
+        KeyboardUtils.hideSoftInput(mActivity);
+        sendHandlerMsg(0);
+
         keyboardHeightProvider.setKeyboardHeightObserver(null);
         keyboardHeightProvider.close();
-        preventKeyboardBlockUtil = null;
+    }
+
+    private void sendHandlerMsg(int i) {
+        Message message = new Message();
+        message.arg1 = i;
+        mHandler.sendMessage(message);
     }
 
     private int getViewLocationYInScreen(View view) {

@@ -1,5 +1,6 @@
 package com.hyb.library;
 
+import android.animation.Animator;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.app.Activity;
@@ -16,6 +17,8 @@ import com.blankj.utilcode.util.KeyboardUtils;
 import com.blankj.utilcode.util.ScreenUtils;
 import com.blankj.utilcode.util.Utils;
 
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -37,9 +40,11 @@ public class PreventKeyboardBlockUtil {
     static int marginBottom = 0;
     static KeyboardHeightProvider keyboardHeightProvider;
     int keyBoardHeight = 0;
+    int btnViewY = 0;
+    AnimatorSet animSet = new AnimatorSet();
 
     public static PreventKeyboardBlockUtil getInstance(Activity activity) {
-        if(preventKeyboardBlockUtil == null){
+        if (preventKeyboardBlockUtil == null) {
             preventKeyboardBlockUtil = new PreventKeyboardBlockUtil();
         }
 
@@ -70,30 +75,31 @@ public class PreventKeyboardBlockUtil {
         }
     };
 
-    void startAnim(int transY){
+    void startAnim(int transY) {
         float curTranslationY = rootView.getTranslationY();
         ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(rootView, "translationY", curTranslationY, transY);
-
-        AnimatorSet animSet = new AnimatorSet();
         animSet.play(objectAnimator);
         animSet.setDuration(200);
         animSet.start();
     }
-
-
 
     public void register() {
 
         keyboardHeightProvider.setKeyboardHeightObserver(new KeyboardHeightObserver() {
             @Override
             public void onKeyboardHeightChanged(int height, int orientation) {
-                if(orientation == Configuration.ORIENTATION_LANDSCAPE){
+                if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
                     return;
                 }
-                Log.i("tag" , "onKeyboardHeightChanged:"+ height);
-                if(keyBoardHeight == height){
+//                Log.i("tag" , "onKeyboardHeightChanged:"+ height);
+//                if(lastTime != 0L){
+//                    Log.i("tag" , "height:" + height + "    time:" + (System.currentTimeMillis() - lastTime));
+//                }
+//                lastTime = System.currentTimeMillis();
+
+                if (keyBoardHeight == height) {
                     return;
-                }else{
+                } else {
                     keyBoardHeight = height;
                 }
 
@@ -107,11 +113,11 @@ public class PreventKeyboardBlockUtil {
                 } else {//键盘打开
 
                     int keyBorardTopY = ScreenUtils.getAppScreenHeight() - keyBoardHeight;
-                    if(keyBorardTopY > (getViewLocationYInScreen(mBtnView) + mBtnView.getHeight())){
+                    if (keyBorardTopY > (btnViewY + mBtnView.getHeight())) {
                         return;
                     }
-                    int margin = keyBorardTopY - (getViewLocationYInScreen(mBtnView) + mBtnView.getHeight());
-                    Log.i("tag" , "margin:" + margin);
+                    int margin = keyBorardTopY - (btnViewY + mBtnView.getHeight());
+                    Log.i("tag", "margin:" + margin);
                     sendHandlerMsg(margin);
 
                     isMove = true;
@@ -123,13 +129,14 @@ public class PreventKeyboardBlockUtil {
         mBtnView.post(new Runnable() {
             @Override
             public void run() {
+                btnViewY = getViewLocationYInScreen(mBtnView);
                 keyboardHeightProvider.start();
             }
         });
 
     }
 
-    public void unRegister(){
+    public void unRegister() {
         KeyboardUtils.hideSoftInput(mActivity);
         sendHandlerMsg(0);
 

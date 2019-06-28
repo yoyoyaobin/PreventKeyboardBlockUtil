@@ -22,6 +22,8 @@ import android.content.res.Configuration;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Handler;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,7 +32,6 @@ import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.view.WindowManager.LayoutParams;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
-
 
 
 /**
@@ -73,6 +74,9 @@ public class KeyboardHeightProvider extends PopupWindow {
      * The root activity that uses this KeyboardHeightProvider
      */
     private Activity activity;
+
+
+    private int lasTimekeyboardHeight = 0;
 
     /**
      * Construct a new KeyboardHeightProvider
@@ -167,6 +171,12 @@ public class KeyboardHeightProvider extends PopupWindow {
         // the keyboard height. But this worked fine on a Nexus.
         int orientation = getScreenOrientation();
         int keyboardHeight = screenSize.y - rect.bottom;
+
+        if(lasTimekeyboardHeight == keyboardHeight){
+            return;
+        }else{
+            lasTimekeyboardHeight = keyboardHeight;
+        }
 
         if (keyboardHeight == 0) {
             notifyKeyboardHeightChanged(0, orientation);

@@ -41,6 +41,7 @@ public class PreventKeyboardBlockUtil {
     static KeyboardHeightProvider keyboardHeightProvider;
     int keyBoardHeight = 0;
     int btnViewY = 0;
+    boolean isRegister = false;
     AnimatorSet animSet = new AnimatorSet();
 
     public static PreventKeyboardBlockUtil getInstance(Activity activity) {
@@ -85,10 +86,15 @@ public class PreventKeyboardBlockUtil {
 
     public void register() {
 
+        isRegister = true;
+
         keyboardHeightProvider.setKeyboardHeightObserver(new KeyboardHeightObserver() {
             @Override
             public void onKeyboardHeightChanged(int height, int orientation) {
                 if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                    return;
+                }
+                if(!isRegister){
                     return;
                 }
 //                Log.i("tag" , "onKeyboardHeightChanged:"+ height);
@@ -137,6 +143,7 @@ public class PreventKeyboardBlockUtil {
     }
 
     public void unRegister() {
+        isRegister = false;
         KeyboardUtils.hideSoftInput(mActivity);
         sendHandlerMsg(0);
 

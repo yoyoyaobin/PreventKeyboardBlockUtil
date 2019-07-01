@@ -145,6 +145,7 @@ public class PreventKeyboardBlockUtil {
     public void unRegister() {
         isRegister = false;
         KeyboardUtils.hideSoftInput(mActivity);
+        keyBoardHeight = 0;
         sendHandlerMsg(0);
 
         keyboardHeightProvider.setKeyboardHeightObserver(null);

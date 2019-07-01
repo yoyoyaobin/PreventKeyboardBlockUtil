@@ -1,10 +1,9 @@
+![image](https://jitpack.io/v/yoyoyaobin/PreventKeyboardBlockUtil.svg)
 # PreventKeyboardBlockUtil
-
 ![image](https://github.com/yoyoyaobin/PreventKeyboardBlockUtil/blob/master/app/src/main/assets/1.gif)
 
 ## 目的
 当前官方提供的三个软键盘方案，一个会顶起输入框并将布局往上推（SOFT_INPUT_ADJUST_PAN），一个会顶起输入框并挤压布局（SOFT_INPUT_ADJUST_RESIZE），一个直接弹出键盘其他不做任何处理（SOFT_INPUT_ADJUST_NOTHING），而前两个方案最多只能将获得焦点的输入框顶起。本库目的解决此问题，配置简单，欢迎使用。
-
 ## 使用方式
 ### 1.在project的build.gradle里配置
 ```

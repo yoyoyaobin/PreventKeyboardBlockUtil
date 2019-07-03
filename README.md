@@ -1,5 +1,9 @@
-![image](https://jitpack.io/v/yoyoyaobin/PreventKeyboardBlockUtil.svg)
+
 # PreventKeyboardBlockUtil
+
+![image](https://jitpack.io/v/yoyoyaobin/PreventKeyboardBlockUtil.svg)
+
+
 ![image](https://github.com/yoyoyaobin/PreventKeyboardBlockUtil/blob/master/app/src/main/assets/1.gif)
 
 ## 目的

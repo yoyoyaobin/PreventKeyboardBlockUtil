@@ -8,7 +8,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.hyb.library.PreventKeyboardBlockUtil;
 
@@ -16,14 +18,16 @@ import com.hyb.library.PreventKeyboardBlockUtil;
 public class AnotherLayoutActivity extends Activity {
 
     Button btnView;
+    TextView tvForget;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_anotherlayout);
+        tvForget = findViewById(R.id.tv_forget);
         btnView = findViewById(R.id.btn_submit);
 
-        btnView.setOnClickListener(new View.OnClickListener() {
+        tvForget.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(AnotherLayoutActivity.this , ConstraintLayoutActivity.class));
@@ -43,4 +47,5 @@ public class AnotherLayoutActivity extends Activity {
         super.onPause();
         PreventKeyboardBlockUtil.getInstance(this).unRegister();
     }
+
 }

@@ -95,21 +95,22 @@ public class KeyboardHeightProvider extends PopupWindow {
         setInputMethodMode(PopupWindow.INPUT_METHOD_NEEDED);
 
         parentView = activity.findViewById(android.R.id.content);
-
         setWidth(0);//  这样既能测量高度，又不会导致界面不能点击
 //        setWidth(LayoutParams.MATCH_PARENT);
         setHeight(LayoutParams.MATCH_PARENT);
 
-        popupView.getViewTreeObserver().addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
-
-            @Override
-            public void onGlobalLayout() {
-                if (popupView != null) {
-                    handleOnGlobalLayout();
-                }
-            }
-        });
+        popupView.getViewTreeObserver().addOnGlobalLayoutListener(mOnGlobalLayoutListener);
     }
+
+    OnGlobalLayoutListener mOnGlobalLayoutListener = new OnGlobalLayoutListener() {
+
+        @Override
+        public void onGlobalLayout() {
+            if (popupView != null) {
+                handleOnGlobalLayout();
+            }
+        }
+    };
 
     /**
      * Start the KeyboardHeightProvider, this must be called after the onResume of the Activity.
@@ -197,4 +198,14 @@ public class KeyboardHeightProvider extends PopupWindow {
             observer.onKeyboardHeightChanged(height, orientation);
         }
     }
+
+    public void recycle(){
+        dismiss();
+        popupView.getViewTreeObserver().removeOnGlobalLayoutListener(mOnGlobalLayoutListener);
+        observer = null;
+        activity = null;
+        parentView = null;
+        popupView = null;
+    }
+
 }

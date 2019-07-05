@@ -60,6 +60,10 @@ public class PreventKeyboardBlockUtil {
         rootView = (ViewGroup) ((ViewGroup) mActivity.findViewById(android.R.id.content)).getChildAt(0);
         isMove = false;
         marginBottom = 0;
+        if(keyboardHeightProvider != null){
+            keyboardHeightProvider.recycle();
+            keyboardHeightProvider = null;
+        }
         keyboardHeightProvider = new KeyboardHeightProvider(mActivity);
     }
 
@@ -97,11 +101,6 @@ public class PreventKeyboardBlockUtil {
                 if(!isRegister){
                     return;
                 }
-//                Log.i("tag" , "onKeyboardHeightChanged:"+ height);
-//                if(lastTime != 0L){
-//                    Log.i("tag" , "height:" + height + "    time:" + (System.currentTimeMillis() - lastTime));
-//                }
-//                lastTime = System.currentTimeMillis();
 
                 if (keyBoardHeight == height) {
                     return;
@@ -148,8 +147,19 @@ public class PreventKeyboardBlockUtil {
         keyBoardHeight = 0;
         sendHandlerMsg(0);
 
-        keyboardHeightProvider.setKeyboardHeightObserver(null);
-        keyboardHeightProvider.close();
+        if(keyboardHeightProvider != null){
+            keyboardHeightProvider.setKeyboardHeightObserver(null);
+            keyboardHeightProvider.close();
+        }
+    }
+
+    public static void recycle(){
+        mActivity = null;
+        if(keyboardHeightProvider != null){
+            keyboardHeightProvider.recycle();
+            keyboardHeightProvider = null;
+        }
+
     }
 
     private void sendHandlerMsg(int i) {

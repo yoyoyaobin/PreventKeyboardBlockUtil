@@ -18,7 +18,7 @@ allprojects {
 ### 2.在app的build.gradle里配置
  ```
  dependencies {
-	        implementation 'com.github.yoyoyaobin:PreventKeyboardBlockUtil:1.0.6'
+	        implementation 'com.github.yoyoyaobin:PreventKeyboardBlockUtil:1.0.7'
 	}
  ```
  

@@ -97,7 +97,7 @@ public class PreventKeyboardBlockUtil {
                     keyBoardHeight = height;
                 }
 
-                if (keyBoardHeight == 0) {//键盘收起
+                if (keyBoardHeight <= 0) {//键盘收起
                     if (isMove) {
 
                         sendHandlerMsg(0);
